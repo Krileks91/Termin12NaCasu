@@ -3,7 +3,11 @@ package com.example.termin12;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -15,7 +19,7 @@ public class PrvaAktivnost extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prva_aktivnost);
         if (savedInstanceState != null)
-             brojac = savedInstanceState.getInt("brojac");
+            brojac = savedInstanceState.getInt("brojac");
     }
 
     @Override
@@ -66,13 +70,47 @@ public class PrvaAktivnost extends AppCompatActivity {
     }
 
     private int brojac = 1;
-    public void onClick(View v){
-        Toast.makeText(this, "Kliknuli ste na OK dugme!" +brojac++, Toast.LENGTH_LONG).show();
+
+    public void onClick(View view) {
+        Toast.makeText(this, "Kliknuli ste na OK dugme!" + brojac++, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("brojac" ,brojac);
+        outState.putInt("brojac", brojac);
+    }
+
+    public void DugmeDrugogAktivitija(View v) {
+        Intent i = new Intent(this, DrugiAktiviti.class);
+        startActivity(i);
+    }
+
+    static final int REQUEST_SELECT_CONTACT = 1;
+
+    //Dugme koje ce nam pokazati kontakt iz imenika
+    public void selectContact(int requestSelectContact) {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, REQUEST_SELECT_CONTACT);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_SELECT_CONTACT && resultCode == RESULT_OK) {
+            Uri contactUri = data.getData();
+        }
+    }
+
+    static final int RESULT_PICK_CONTACT = 1;
+    public void pickContact(View v) {
+        Intent contactPickerIntent = new Intent(Intent.ACTION_PICK,
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+        startActivityForResult(contactPickerIntent, RESULT_PICK_CONTACT);
     }
 }
+
+
