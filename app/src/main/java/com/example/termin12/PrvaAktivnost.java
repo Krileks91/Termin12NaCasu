@@ -80,15 +80,15 @@ public class PrvaAktivnost extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putInt("brojac", brojac);
     }
-
-    public void DugmeDrugogAktivitija(View v) {
+    //Dugme da nas prebaci na drugi aktiviti
+    public void OnClickSecondActivity(View v) {
         Intent i = new Intent(this, DrugiAktiviti.class);
         startActivity(i);
     }
 
     static final int REQUEST_SELECT_CONTACT = 1;
 
-    //Dugme koje ce nam pokazati kontakt iz imenika
+    //Dugme kojim pozivamo imenik iz telefona
     public void selectContact(int requestSelectContact) {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
@@ -96,7 +96,7 @@ public class PrvaAktivnost extends AppCompatActivity {
             startActivityForResult(intent, REQUEST_SELECT_CONTACT);
         }
     }
-
+    //Kao rezultat uzimamo taj kontakt
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -104,7 +104,7 @@ public class PrvaAktivnost extends AppCompatActivity {
             Uri contactUri = data.getData();
         }
     }
-
+    //Kada se otvori imenik dobijamo da izaberemo kontakt
     static final int RESULT_PICK_CONTACT = 1;
     public void pickContact(View v) {
         Intent contactPickerIntent = new Intent(Intent.ACTION_PICK,
