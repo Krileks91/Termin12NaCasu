@@ -15,7 +15,7 @@ public class DrugiAktiviti extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drugi_aktiviti);
     }
-
+        //Zahtev da 'otvorimo' kameru
         static final int CAMERA_PIC_REQUEST = 0;
         public void btnOpenCameraClicked(View v) {
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
